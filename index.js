@@ -2,8 +2,10 @@ import express from 'express';
 import fs from 'fs';
 import multer from 'multer';
 import cors from 'cors';
+import dotenv from 'dotenv'
 
 import mongoose from 'mongoose';
+mongoose.set('strictQuery', false);
 
 import { registerValidation, loginValidation, postCreateValidation } from './validations.js';
 
@@ -11,10 +13,13 @@ import { handleValidationErrors, checkAuth } from './utils/index.js';
 
 import { UserController, PostController } from './controllers/index.js';
 
+dotenv.config();
+
 mongoose
-  .connect(process.env.MONGODB_URI || 'mongodb+srv://admin:wwwwww@cluster0.tmhexux.mongodb.net/blog?retryWrites=true&w=majority')
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log('DB ok'))
   .catch((err) => console.log('DB error', err));
+
 
 const app = express();
 
